@@ -1,52 +1,80 @@
-import * as esbuild from 'esbuild-wasm'
+import * as esbuild from 'esbuild-wasm';
+import axios from 'axios';
+import localForage from 'localforage';
 
-import axios from 'axios'
+const fileCache = localForage.createInstance({
+  name: 'filecache',
+});
 
+export const fetchPlugin = (inputCode: string) => {
+  return {
+    name: 'fetch-plugin',
+    setup(build: esbuild.PluginBuild) {
+      build.onLoad({ filter: /(^index\.js$)/ }, () => {
+        return {
+          loader: 'jsx',
+          contents: inputCode,
+        };
+      });
 
-import localForage from 'localforage'
+    build.onLoad({filter:/.*/},async(args:any)=>{
+      const cachedResult = await fileCache.getItem<esbuild.OnLoadResult>(
+        args.path
+      );
 
-const fileCache=localForage.createInstance({
-  name:'filecache',
-})
+      if (cachedResult) {
+        return cachedResult;
+      }  
+    })
 
+      build.onLoad({ filter: /.css$/ }, async (args: any) => {
+        const cachedResult = await fileCache.getItem<esbuild.OnLoadResult>(
+          args.path
+        );
 
-
-export const fetchPlugin=(inputCode:string)=>{
-    return{
-        name:'fetch-plugin',
-        setup(build:esbuild.PluginBuild){
-        build.onLoad({ filter: /.*/ }, async (args: any) => {
-
-            if (args.path === 'index.js') {
-              return {
-                loader: 'jsx',
-                contents: inputCode,
-              };
-            } 
-    
-            //check to see if we have already fetched thos file and if it is in the cache then return it immediantly
-            const cachedResult =await fileCache.getItem<esbuild.OnLoadResult>(args.path);
-    
-    
-            //return immediately if it is present
-            if(cachedResult){
-              return cachedResult;
-            }
-    
-    
-            const {data,request}=await axios.get(args.path);
-                    //store response in cache
-    
-            const result:esbuild.OnLoadResult= {
-                loader:'jsx',
-                contents:data,
-                resolveDir: new URL('./',request.responseURL).pathname
-    
-            }
-            //store response in cache
-            await fileCache.setItem(args.path,result);
-            return result;
-          });
+        if (cachedResult) {
+          return cachedResult;
         }
-    }
-}
+        const { data, request } = await axios.get(args.path);
+        const escaped = data
+          .replace(/\n/g, '')
+          .replace(/"/g, '\\"')
+          .replace(/'/g, "\\'");
+        const contents = `
+          const style = document.createElement('style');
+          style.innerText = '${escaped}';
+          document.head.appendChild(style);
+        `;
+
+        const result: esbuild.OnLoadResult = {
+          loader: 'jsx',
+          contents,
+          resolveDir: new URL('./', request.responseURL).pathname,
+        };
+        await fileCache.setItem(args.path, result);
+
+        return result;
+      });
+
+      build.onLoad({ filter: /.*/ }, async (args: any) => {
+        const cachedResult = await fileCache.getItem<esbuild.OnLoadResult>(
+          args.path
+        );
+
+        if (cachedResult) {
+          return cachedResult;
+        }
+        const { data, request } = await axios.get(args.path);
+
+        const result: esbuild.OnLoadResult = {
+          loader: 'jsx',
+          contents: data,
+          resolveDir: new URL('./', request.responseURL).pathname,
+        };
+        await fileCache.setItem(args.path, result);
+
+        return result;
+      });
+    },
+  };
+};
