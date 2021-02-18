@@ -1,15 +1,21 @@
-// import './components/style.css'
-//import 'bulmaswatch/superhero/bulmaswatch.min.css';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import ReactDOM from 'react-dom';
-import TextEditor from './components/text-editor';
-import CodeCell from './components/code-cell'
+import { Provider } from 'react-redux';
+import { store } from './state';
+import CellList from './components/cell-list';
+import Navbar from './components/navbar';
+
+
+
 const App = () => {
-  return (
-    <div>
-      {/* <TextEditor /> */}
-      <CodeCell/>
-      
-    </div>
+  return (<>
+    <Navbar/>
+    <Provider store={store}>
+      <div>
+        <CellList />
+      </div>
+    </Provider>
+  </>
   );
 };
 
