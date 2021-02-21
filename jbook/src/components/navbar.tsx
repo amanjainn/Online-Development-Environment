@@ -8,7 +8,7 @@ const navbar=()=> {
         <>
             <div className="navbar nav-color">
                 <div className="navbar-brand">
-                    <img src={Logo} width= "750" height="400"/>
+                    <img src={Logo} width= "650" height="400"/>
                 </div>
             </div>
         </>
