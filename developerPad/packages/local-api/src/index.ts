@@ -1,5 +1,19 @@
-export const serve=(port:number,filename:string,dir:string)=>{
-    console.log('Serving traffic on port',port);
-    console.log('Saving/fetching cells from',filename);
-    console.log('that file is in dir',dir);
+import express from 'express'
+import {createProxyMiddleware} from 'http-proxy-middleware';
+
+export const serve = (port: number, filename: string, dir: string) => {
+    const app = express();
+
+    app.use(express.static('../../local-client/build'));
+    // app.use(createProxyMiddleware({
+    //     target: 'htt://localhost:3000',
+    //     ws:true,
+    //     logLevel:'silent'
+    // }))
+
+    return new Promise<void>((resolve,reject)=>{
+       app.listen(port,resolve).on('error',reject);
+    })
 }
+
+

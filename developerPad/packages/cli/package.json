@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "commander": "^7.1.0",
+    "http-proxy-middleware": "^1.0.6",
     "local-api": "^1.0.0"
   },
   "devDependencies": {
