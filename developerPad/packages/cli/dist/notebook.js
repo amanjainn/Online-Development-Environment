@@ -1,0 +1,1 @@
+[{"content":"const App =()=>{\n  return <div>HI world</div>\n}\n\ndisplay(<App/>)","type":"code","id":"6ci5c"},{"content":"fsvfrfrferfre","type":"text","id":"xrh1u"}]
