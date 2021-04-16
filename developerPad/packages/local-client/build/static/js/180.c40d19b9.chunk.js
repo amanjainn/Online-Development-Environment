@@ -1,0 +1,2 @@
+(this["webpackJsonp@developerpad/local-client"]=this["webpackJsonp@developerpad/local-client"]||[]).push([[180],{348:function(e,n){!function(e){e.languages.ignore={comment:/^#.*/m,entry:{pattern:/\S(?:.*(?:(?:\\ )|\S))?/,alias:"string",inside:{operator:/^!|\*\*?|\?/,regex:{pattern:/(^|[^\\])\[[^\[\]]*\]/,lookbehind:!0},punctuation:/\//}}},e.languages.gitignore=e.languages.ignore,e.languages.hgignore=e.languages.ignore,e.languages.npmignore=e.languages.ignore}(Prism)}}]);
+//# sourceMappingURL=180.c40d19b9.chunk.js.map

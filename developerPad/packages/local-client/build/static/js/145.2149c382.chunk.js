@@ -1,0 +1,2 @@
+(this["webpackJsonp@developerpad/local-client"]=this["webpackJsonp@developerpad/local-client"]||[]).push([[145],{313:function(e,m){Prism.languages.git={comment:/^#.*/m,deleted:/^[-\u2013].*/m,inserted:/^\+.*/m,string:/("|')(?:\\.|(?!\1)[^\\\r\n])*\1/m,command:{pattern:/^.*\$ git .*$/m,inside:{parameter:/\s--?\w+/m}},coord:/^@@.*@@$/m,commit_sha1:/^commit \w{40}$/m}}}]);
+//# sourceMappingURL=145.2149c382.chunk.js.map

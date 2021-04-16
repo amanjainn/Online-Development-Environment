@@ -1,2 +1,0 @@
-(this["webpackJsonplocal-client"]=this["webpackJsonplocal-client"]||[]).push([[420],{588:function(s,a){var e=Prism.util.clone(Prism.languages.typescript);Prism.languages.tsx=Prism.languages.extend("jsx",e)}}]);
-//# sourceMappingURL=420.b9454bb5.chunk.js.map
