@@ -1,5 +1,9 @@
 {
   "dependencies": {
     "axios": "^0.21.1"
+  },
+  "name": "Online-Development-Environment",
+  "devDependencies": {
+    "lerna": "^3.22.1"
   }
 }
